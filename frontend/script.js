@@ -5,12 +5,6 @@ $(document).ready(function () {
     $("#userModalPassword").text(user.password);
   }
 
-  function clearUserModal() {
-    $("#userModalName").text("");
-    $("#userModalEmail").text("");
-    $("#userModalPassword").text("");
-  }
-
   function loadUsers() {
     axios
       .get("http://localhost:9000/api/v1/user")
@@ -24,11 +18,14 @@ $(document).ready(function () {
           row.append($("<td>").text(user.name));
           row.append($("<td>").text(user.email));
           row.append($("<td>").text(user.password));
-          row.click(function () {
+          row.on("click", function () {
             populateUserModal(user);
-            $("#userModal").modal("show");
+            $("#userModal").toggle();
           });
           tableBody.append(row);
+          $("#close").on("click", function() {
+            $("#userModal").toggle();
+          })
         });
       })
       .catch(function (error) {
